@@ -1,0 +1,95 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "username": "tom",
+      "email": "tomhall@gmail.com",
+      "password": "qwerty"
+    },
+    {
+      "username": "tommy",
+      "email": "tommy@gmail.com",
+      "password": "asdf",
+      "id": 2
+    },
+    {
+      "username": "tammy",
+      "email": "tammy@gmail.com",
+      "password": "asdf",
+      "id": 3
+    },
+    {
+      "username": "hey",
+      "email": "hey@gm.com",
+      "password": "qwerty",
+      "id": 4
+    },
+    {
+      "username": "mark",
+      "email": "mark@g.com",
+      "password": "asdf",
+      "id": 5
+    },
+    {
+      "username": "markie",
+      "email": "markie@g.com",
+      "password": "asdf",
+      "id": 6
+    }
+  ],
+  "products": [
+    {
+      "id": 2,
+      "name": "t-Shirt dua tiga",
+      "desc": "Baru Lebaran 2018, Kondisi 90%, minus box",
+      "price": "130000",
+      "src": "https://www.jakartanotebook.com/images/products/99/63/19075/2/kaos-polos-katun-pria-o-neck-size-m-81402b-or-t-shirt-black-24.jpg"
+    },
+    {
+      "id": 3,
+      "name": "Hoodie satu",
+      "desc": "Baru Lebaran 2019, Kondisi 90%, minus box",
+      "price": 230000,
+      "src": "https://www.jakartanotebook.com/images/products/99/63/19075/2/kaos-polos-katun-pria-o-neck-size-m-81402b-or-t-shirt-black-24.jpg"
+    },
+    {
+      "name": "hoodie Dua",
+      "desc": "Baru dibuat hari ini",
+      "price": 34000,
+      "src": "https://www.jakartanotebook.com/images/products/99/63/19075/2/kaos-polos-katun-pria-o-neck-size-m-81402b-or-t-shirt-black-24.jpg",
+      "id": 4
+    },
+    {
+      "desc": "Baru dibuat setelah yag pertama",
+      "name": "Bag satu",
+      "price": 35000,
+      "src": "https://www.jakartanotebook.com/images/products/99/63/19075/2/kaos-polos-katun-pria-o-neck-size-m-81402b-or-t-shirt-black-24.jpg",
+      "id": 5
+    },
+    {
+      "desc": "Sedia payung sebelum hujan",
+      "name": "Umbrella",
+      "price": 27000,
+      "src": "https://contents.mediadecathlon.com/p1487556/k$74935b53eed0d621ea4cb3e0b5cdd879/golf-umbrella-500-uv-pink.jpg",
+      "id": 7
+    }
+  ],
+  "cart": [
+    {
+      "userId": 2,
+      "prd_name": "Hoodie satu",
+      "prd_price": 230000,
+      "prd_img": "https://www.jakartanotebook.com/images/products/99/63/19075/2/kaos-polos-katun-pria-o-neck-size-m-81402b-or-t-shirt-black-24.jpg",
+      "prd_qty": 1,
+      "id": 1
+    },
+    {
+      "userId": 2,
+      "prd_name": "t-Shirt dua tiga",
+      "prd_price": "130000",
+      "prd_img": "https://www.jakartanotebook.com/images/products/99/63/19075/2/kaos-polos-katun-pria-o-neck-size-m-81402b-or-t-shirt-black-24.jpg",
+      "prd_qty": 1,
+      "id": 2
+    }
+  ]
+}
