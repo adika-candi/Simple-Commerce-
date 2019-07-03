@@ -22,16 +22,17 @@ class Cart extends Component{
     }
 
     getCartPrd=()=>{
+        console.log(this.state.noItem)
         axios.get('http://localhost:2019/cart')
             .then(res => {
-                if(res.data.length===0){
-                    this.setState({noItem:1})
-                }
-                else{
                     var arrCart=res.data.filter(item=>
                         item.userId===this.props.user.id
                     )
                     this.setState({cart_prd:arrCart})
+                        console.log(this.state.cart_prd)
+                    if(this.state.cart_prd.length===0){
+                        this.setState({noItem:1})
+                    }
 
                     var tempTotal=0
 
@@ -39,7 +40,6 @@ class Cart extends Component{
                         tempTotal=tempTotal+(arrCart[i].prd_qty*arrCart[i].prd_price)
                     }
                     this.setState({subTotal:tempTotal})
-                }
             })
     }
     addQty=(id,tempQty)=>{

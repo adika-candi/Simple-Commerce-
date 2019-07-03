@@ -35,6 +35,18 @@
       "email": "markie@g.com",
       "password": "asdf",
       "id": 6
+    },
+    {
+      "username": "alfi",
+      "email": "alfi@gmail.com",
+      "password": "123asd",
+      "id": 7
+    },
+    {
+      "username": "navi",
+      "email": "navi@gmail.com",
+      "password": "123asd",
+      "id": 8
     }
   ],
   "products": [
@@ -74,5 +86,14 @@
       "id": 7
     }
   ],
-  "cart": []
+  "cart": [
+    {
+      "userId": 2,
+      "prd_name": "Umbrella",
+      "prd_price": 27000,
+      "prd_img": "https://contents.mediadecathlon.com/p1487556/k$74935b53eed0d621ea4cb3e0b5cdd879/golf-umbrella-500-uv-pink.jpg",
+      "prd_qty": 6,
+      "id": 1
+    }
+  ]
 }
