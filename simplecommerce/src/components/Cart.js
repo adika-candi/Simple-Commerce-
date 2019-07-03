@@ -7,6 +7,7 @@ class Cart extends Component{
 
     state = {
         subTotal:0,
+        noItem:0,
         //stateQuantity:0,
         checkOutCartPrd:[],
         cart_prd:[],
@@ -23,17 +24,22 @@ class Cart extends Component{
     getCartPrd=()=>{
         axios.get('http://localhost:2019/cart')
             .then(res => {
-                var arrCart=res.data.filter(item=>
-                    item.userId===this.props.user.id
-                )
-                this.setState({cart_prd:arrCart})
-
-                var tempTotal=0
-
-                for(var i=0;i<arrCart.length;i++){
-                    tempTotal=tempTotal+(arrCart[i].prd_qty*arrCart[i].prd_price)
+                if(res.data.length===0){
+                    this.setState({noItem:1})
                 }
-                this.setState({subTotal:tempTotal})
+                else{
+                    var arrCart=res.data.filter(item=>
+                        item.userId===this.props.user.id
+                    )
+                    this.setState({cart_prd:arrCart})
+
+                    var tempTotal=0
+
+                    for(var i=0;i<arrCart.length;i++){
+                        tempTotal=tempTotal+(arrCart[i].prd_qty*arrCart[i].prd_price)
+                    }
+                    this.setState({subTotal:tempTotal})
+                }
             })
     }
     addQty=(id,tempQty)=>{
@@ -128,7 +134,7 @@ class Cart extends Component{
     }
 
     render(){
-        if(this.state.checkOutState===0){
+        if(this.state.noItem===1){
             return (
                 <div className="container">
                     <h1 className="display-4 text-center">List Product</h1>
@@ -144,8 +150,8 @@ class Cart extends Component{
                             </tr>
                         </thead>
                         <tbody>
-                            {this.renderList()}
                         </tbody>
+                        <h4 className="text-center">Tidak ada produk, silahkan menambahkan produk ke kantong belanja</h4>
                     </table>
                     {/* <div className="center m-5"><h2>Total Belanjaan : Rp.{this.state.subTotal}</h2></div> */}
                     <div className="container">
@@ -155,7 +161,7 @@ class Cart extends Component{
                                 <Link to="./">
                                 <button className = 'btn btn-success mx-3'>Shop Again</button>
                                 </Link>
-                                <button onClick={this.onCheckOut} className = 'btn btn-primary'>CheckOut</button>
+                                <button onClick={this.onCheckOut} className = 'btn btn-primary disabled'>CheckOut</button>
                             </div>
                             <div className="col"></div>
                         </div>
@@ -165,45 +171,82 @@ class Cart extends Component{
             )
         }
         else{
-            return (
-                <div className="container">
-                    <h1 className="display-4 text-center">List Product</h1>
-                    <table className="table table-hover mb-5">
-                        <thead>
-                            <tr>
-                                <th scope="col">NAME</th>
-                                <th scope="col">PRICE</th>
-                                <th scope="col">QUANTITY</th>
-                                <th scope="col">TOTAL</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {this.renderList()}
-                        </tbody>
-                    </table>
-                    <div className="container m-3">
-                        <div className="row">
-                            <div className="col-8 text-center"><h2>Total Belanjaan : </h2></div>
-                            <div className="col-4"><h2>Rp.{String(this.state.subTotal).replace(/(.)(?=(\d{3})+$)/g,'$1.')}</h2></div>
-                        </div>
-                    </div>
-                    
+            if(this.state.checkOutState===0){
+                return (
                     <div className="container">
-                        <div className="row">
-                            <div className="col"></div>
-                            <div className="col">
-                                <Link to="./">
-                                <button className = 'btn btn-success mx-3'>Shop Again</button>
-                                </Link>
+                        <h1 className="display-4 text-center">List Product</h1>
+                        <table className="table table-hover mb-5">
+                            <thead>
+                                <tr>
+                                    <th scope="col">NAME</th>
+                                    <th scope="col">PICTURE</th>
+                                    <th scope="col">PRICE</th>
+                                    <th scope="col">QUANTITY</th>
+                                    <th scope="col">TOTAL</th>
+                                    <th scope="col">ACTION</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {this.renderList()}
+                            </tbody>
+                        </table>
+                        {/* <div className="center m-5"><h2>Total Belanjaan : Rp.{this.state.subTotal}</h2></div> */}
+                        <div className="container">
+                            <div className="row">
+                                <div className="col"></div>
+                                <div className="col">
+                                    <Link to="./">
+                                    <button className = 'btn btn-success mx-3'>Shop Again</button>
+                                    </Link>
+                                    <button onClick={this.onCheckOut} className = 'btn btn-primary'>CheckOut</button>
+                                </div>
+                                <div className="col"></div>
                             </div>
-                            <div className="col"></div>
                         </div>
+                        
                     </div>
-                    
-                </div>
-            )
+                )
+            }
+            else{
+                return (
+                    <div className="container">
+                        <h1 className="display-4 text-center">List Product</h1>
+                        <table className="table table-hover mb-5">
+                            <thead>
+                                <tr>
+                                    <th scope="col">NAME</th>
+                                    <th scope="col">PRICE</th>
+                                    <th scope="col">QUANTITY</th>
+                                    <th scope="col">TOTAL</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {this.renderList()}
+                            </tbody>
+                        </table>
+                        <div className="container m-3">
+                            <div className="row">
+                                <div className="col-8 text-center"><h2>Total Belanjaan : </h2></div>
+                                <div className="col-4"><h2>Rp.{String(this.state.subTotal).replace(/(.)(?=(\d{3})+$)/g,'$1.')}</h2></div>
+                            </div>
+                        </div>
+                        
+                        <div className="container">
+                            <div className="row">
+                                <div className="col"></div>
+                                <div className="col">
+                                    <Link to="./">
+                                    <button className = 'btn btn-success mx-3'>Shop Again</button>
+                                    </Link>
+                                </div>
+                                <div className="col"></div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                )
+            }
         }
-
     }
 }
 const mapStateToProps = state => {
