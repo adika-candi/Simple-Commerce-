@@ -74,22 +74,5 @@
       "id": 7
     }
   ],
-  "cart": [
-    {
-      "userId": 2,
-      "prd_name": "Hoodie satu",
-      "prd_price": 230000,
-      "prd_img": "https://www.jakartanotebook.com/images/products/99/63/19075/2/kaos-polos-katun-pria-o-neck-size-m-81402b-or-t-shirt-black-24.jpg",
-      "prd_qty": 1,
-      "id": 1
-    },
-    {
-      "userId": 2,
-      "prd_name": "t-Shirt dua tiga",
-      "prd_price": "130000",
-      "prd_img": "https://www.jakartanotebook.com/images/products/99/63/19075/2/kaos-polos-katun-pria-o-neck-size-m-81402b-or-t-shirt-black-24.jpg",
-      "prd_qty": 1,
-      "id": 2
-    }
-  ]
+  "cart": []
 }

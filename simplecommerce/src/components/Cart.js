@@ -8,12 +8,15 @@ class Cart extends Component{
     state = {
         subTotal:0,
         //stateQuantity:0,
+        checkOutCartPrd:[],
         cart_prd:[],
-        selectedId:0
+        selectedId:0,
+        checkOutState:0
     }
 
     componentDidMount(){
         // Akses database
+        this.setState({checkOutState:0})
         this.getCartPrd()
     }
 
@@ -63,6 +66,7 @@ class Cart extends Component{
     }
 
     onCheckOut=()=>{
+        this.setState({checkOutCartPrd:this.state.cart_prd})
         var prdLength=0
         axios.get("http://localhost:2019/cart",
         {
@@ -71,70 +75,135 @@ class Cart extends Component{
             }
         }).then(res=>{
             console.log(res.data)
+            this.setState({checkOutState:1})
+            this.getCartPrd()
             prdLength=res.data.length
             for(var i=0;i<prdLength;i++){
                 axios.delete("http://localhost:2019/cart/"+res.data[i].id).then(console.log(i+" check out"))
             }
-            this.getCartPrd()
+            
         })
 
         
     }
 
     renderList = () => {
-        return this.state.cart_prd.map( item => { // {id, name, price, desc, src}
-            return (
-                <tr>
-                    <td>{item.prd_name}</td>
-                    <td>
-                        <img className='list' src={item.prd_img}/>
-                    </td>
-                    <td>Rp.{item.prd_price}</td>
-                    <td>{item.prd_qty}</td>
-                    <td>Rp.{item.prd_qty*item.prd_price}</td>
-                    <td>
-                        <td>
-                            <button onClick={() => {this.addQty(item.id,item.prd_qty)}} className = 'btn btn-primary mx-1'>+</button>
-                            <button onClick={()=>{this.reduceQty(item.id,item.prd_qty)}} className = 'btn btn-primary mx-1'>-</button>
-                        </td>
-                        <td>
-                            <button onClick={()=>{this.removePrd(item.id)}} className = 'btn btn-warning'>Delete</button>
-                        </td>
-                    </td>
-                </tr>
-            )
-        })
+        
+            if(this.state.checkOutState===0){
+                return this.state.cart_prd.map( item => { // {id, name, price, desc, src}
+                    return (
+                        <tr>
+                            <td>{item.prd_name}</td>
+                            <td>
+                                <img className='list' src={item.prd_img}/>
+                            </td>
+                            <td>Rp.{String(item.prd_price).replace(/(.)(?=(\d{3})+$)/g,'$1.')}</td>
+                            <td>{item.prd_qty}</td>
+                            <td>Rp.{String(item.prd_qty*item.prd_price).replace(/(.)(?=(\d{3})+$)/g,'$1.')}</td>
+                            <td>
+                                <td>
+                                    <button onClick={() => {this.addQty(item.id,item.prd_qty)}} className = 'btn btn-outline-primary mx-1'>+</button>
+                                    <button onClick={()=>{this.reduceQty(item.id,item.prd_qty)}} className = 'btn btn-outline-primary mx-1'>-</button>
+                                </td>
+                                <td>
+                                    <button onClick={()=>{this.removePrd(item.id)}} className = 'btn btn-danger'>Remove</button>
+                                </td>
+                            </td>
+                        </tr>
+                    )
+                })
+            }
+            else{
+                return this.state.checkOutCartPrd.map( item => { // {id, name, price, desc, src}
+                    return (
+                        <tr>
+                            <td>{item.prd_name}</td>
+                            <td>Rp.{String(item.prd_price).replace(/(.)(?=(\d{3})+$)/g,'$1.')}</td>
+                            <td>{item.prd_qty}</td>
+                            <td>Rp.{String(item.prd_qty*item.prd_price).replace(/(.)(?=(\d{3})+$)/g,'$1.')}</td>
+                        </tr>
+                    )
+                    })        
+            }
     }
 
     render(){
-        return (
-            <div className="container">
-                <h1 className="display-4 text-center">List Product</h1>
-                <table className="table table-hover mb-5">
-                    <thead>
-                        <tr>
-                            <th scope="col">NAME</th>
-                            <th scope="col">PICTURE</th>
-                            <th scope="col">PRICE</th>
-                            <th scope="col">QUANTITY</th>
-                            <th scope="col">TOTAL</th>
-                            <th scope="col">ACTION</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {this.renderList()}
-                    </tbody>
-                </table>
-                <div><h2>Total Belanjaan : Rp.{this.state.subTotal}</h2></div>
-                <div>
-                    <Link to="./">
-                    <button className = 'btn btn-warning mx-3'>Shop Again</button>
-                    </Link>
-                    <button onClick={this.onCheckOut} className = 'btn btn-warning'>CheckOut</button>
+        if(this.state.checkOutState===0){
+            return (
+                <div className="container">
+                    <h1 className="display-4 text-center">List Product</h1>
+                    <table className="table table-hover mb-5">
+                        <thead>
+                            <tr>
+                                <th scope="col">NAME</th>
+                                <th scope="col">PICTURE</th>
+                                <th scope="col">PRICE</th>
+                                <th scope="col">QUANTITY</th>
+                                <th scope="col">TOTAL</th>
+                                <th scope="col">ACTION</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {this.renderList()}
+                        </tbody>
+                    </table>
+                    {/* <div className="center m-5"><h2>Total Belanjaan : Rp.{this.state.subTotal}</h2></div> */}
+                    <div className="container">
+                        <div className="row">
+                            <div className="col"></div>
+                            <div className="col">
+                                <Link to="./">
+                                <button className = 'btn btn-success mx-3'>Shop Again</button>
+                                </Link>
+                                <button onClick={this.onCheckOut} className = 'btn btn-primary'>CheckOut</button>
+                            </div>
+                            <div className="col"></div>
+                        </div>
+                    </div>
+                    
                 </div>
-                
-            </div>
-        )
+            )
+        }
+        else{
+            return (
+                <div className="container">
+                    <h1 className="display-4 text-center">List Product</h1>
+                    <table className="table table-hover mb-5">
+                        <thead>
+                            <tr>
+                                <th scope="col">NAME</th>
+                                <th scope="col">PRICE</th>
+                                <th scope="col">QUANTITY</th>
+                                <th scope="col">TOTAL</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {this.renderList()}
+                        </tbody>
+                    </table>
+                    <div className="container m-3">
+                        <div className="row">
+                            <div className="col-8 text-center"><h2>Total Belanjaan : </h2></div>
+                            <div className="col-4"><h2>Rp.{String(this.state.subTotal).replace(/(.)(?=(\d{3})+$)/g,'$1.')}</h2></div>
+                        </div>
+                    </div>
+                    
+                    <div className="container">
+                        <div className="row">
+                            <div className="col"></div>
+                            <div className="col">
+                                <Link to="./">
+                                <button className = 'btn btn-success mx-3'>Shop Again</button>
+                                </Link>
+                            </div>
+                            <div className="col"></div>
+                        </div>
+                    </div>
+                    
+                </div>
+            )
+        }
+
     }
 }
 const mapStateToProps = state => {
